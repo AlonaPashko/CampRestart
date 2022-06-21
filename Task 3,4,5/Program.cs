@@ -33,5 +33,24 @@
 
 //Console.WriteLine(vector4);
 
-Vector vector6 = new Vector();
-vector6.ReadFromFile("Array.txt");
+//Vector vector6 = new Vector();
+//vector6.ReadFromFile("Array.txt");
+
+Vector a = new Vector(3);
+a.InitRandom(1, 50);
+
+Vector b = new Vector(5);
+b.InitRandom(1, 50);
+
+Vector c = a + b;
+Vector d = a + 5;
+
+d += 5;
+
+int ai = a;
+Vector e = new Vector(10);
+e = 5;
+
+Console.WriteLine("a = "+ a);
+Console.WriteLine("b = " + b); 
+Console.WriteLine("c = " + c);

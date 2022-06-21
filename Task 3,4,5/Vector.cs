@@ -9,7 +9,7 @@ namespace Task3And4And5
 {
     internal class Vector
     {
-        int[] array;
+        private int[] array;
         public int[] ArrayProp
         {
             get { return array; }
@@ -463,20 +463,6 @@ namespace Task3And4And5
             }
             fileOut.Close();
         }
-        //public int SetPosition(string str, string pathToResult)
-        //{
-        //    string resultFile = File.ReadAllText(pathToResult);
-        //    int position = 0;
-        //    if(resultFile.Length > 0)
-        //    {
-        //        position = resultFile.Length - 1;
-        //    }
-        //    else
-        //    {
-        //        position = resultFile.Length / 2;
-        //    }
-        //    return position;
-        //}
 
         public string ReadFromFile(string path)
         {
@@ -495,7 +481,67 @@ namespace Task3And4And5
             }
             Console.WriteLine(line);
             return line;
+        }
 
+        //public static Vector operator +(Vector a, Vector b)
+        //{
+        //    if (a.array.Length > b.array.Length)
+        //    {
+        //        (a, b) = (b, a);
+        //    }
+        //    Vector c = new Vector(b.array.Length);
+
+        //    for (int i = 0; i < a.array.Length; i++)
+        //    {
+        //        c.array[i] = a.array[i] + b.array[i];
+        //    }
+        //    for (int i = a.array.Length; i < b.array.Length; i++)
+        //    {
+        //        c.array[i] = b.array[i];
+        //    }
+        //    return c;
+        //}
+        public static Vector operator +(Vector a, int b)
+        {
+            Vector c = new Vector(a.array.Length);
+            for (int i = 0; i < a.array.Length; i++)
+            {
+                c.array[i] = a.array[i] + b;
+            }
+            return c;
+        }
+
+        public static int operator+(Vector a, Vector b)
+        {
+            return a.Sum() + b.Sum();
+        }
+        public int Sum()
+        {
+            int sum = 0;
+            foreach (int i in array)
+            {
+                sum += i;
+            }
+            return sum;
+        }
+
+        public static bool operator >(Vector a, Vector b)
+        {
+            return a.array.Length > b.array.Length;
+        }
+        public static bool operator <(Vector a, Vector b)
+        {
+            return a.array.Length < b.array.Length;
+        }
+        public static implicit operator Vector(int t)
+        {
+            Vector a = new Vector(1);
+            a[0] = t;
+            return a;
+        }
+        public static implicit operator int(Vector a)
+        {
+            return a[0];
         }
     }
 }

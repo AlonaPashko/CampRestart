@@ -39,6 +39,15 @@ namespace Task6
             return line;
         }
 
+        public void ReadLineFromFile(string filePath)
+        {
+            StreamReader reader = new StreamReader(filePath);
+            while(reader.Peek() >= 0)
+            {
+                strings.Add(reader.ReadLine());
+            }
+        }
+        
         public List<string> MakeSentence() 
         {
             string[] array = Regex.Split(line, @"(?<=[\.!\?])\s+");
@@ -48,8 +57,6 @@ namespace Task6
             }
             return strings;
         }
-
-        
         public List<string> MakeWords()
         {
             string[] array = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -118,7 +125,6 @@ namespace Task6
                     max = words[i].Length;
                 }
             }
-            
             Console.WriteLine("The longest word in sentence: " + maxWord + '\n' +
                 "The shortest word in sentence: " + minWord);
         }
@@ -132,5 +138,11 @@ namespace Task6
             }
         }
         
+        //public string InsertMonth(string line)
+        //{
+        //    string[] array = line.Split(' ');
+        //    StringBuilder strBuider = new StringBuilder(line);
+
+        //}
     }
 }
