@@ -8,7 +8,7 @@ using Task6;
 //text1.WriteToFile("Result.txt");
 //text1.PrintMinMaxWordColl();
 
-TextHandler text2 = new TextHandler("ElectrycityAccounting.txt");
-text2.ReadLineFromFile("ElectrycityAccounting.txt");
-text2.WriteToFile("Report.txt");
+ElectricityBillHandler elBill = new ElectricityBillHandler(1, "Pashko", 2, 3489, 3586, 3760);
+Console.WriteLine(elBill.PrintHeader());
+Console.WriteLine(elBill);
 
