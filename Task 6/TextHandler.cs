@@ -42,7 +42,7 @@ namespace Task6
         public void ReadLineFromFile(string filePath)
         {
             StreamReader reader = new StreamReader(filePath);
-            while(reader.Peek() >= 0)
+            while(reader.Peek() != -1)
             {
                 strings.Add(reader.ReadLine());
             }

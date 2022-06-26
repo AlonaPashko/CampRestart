@@ -9,77 +9,74 @@ namespace Task6
     internal class ElectricityBillHandler
     {
         const double priceKWh = 0.18; //it is price per kWh in Poland, сurrency - $USA
-
-        List<ElectricityBillHandler> bills;
+        
         int appNo;
-        string surname;
-        int quarterNo;
+        string? surname;
         int[] meterReadings;
-        string months;
 
         public ElectricityBillHandler()
         {
             appNo = 0;
-            surname = "Smith";
-            quarterNo = 1;
-            //meterReadings = new int[] { 0, 0, 0 };
+            surname = " ";
+            meterReadings = new int[] { 0, 0, 0 };
         }
 
-        public ElectricityBillHandler(int appNo, string surname, int quarterNo, int month1Readings, int month2Readings, int month3Readings)
+        public ElectricityBillHandler(int appNo, string surname, int month1Readings, int month2Readings, int month3Readings)
         {
             AppNo = appNo;
             Surname = surname;
-            QuarterNo = quarterNo;
             meterReadings = SetMeterReadings(month1Readings, month2Readings, month3Readings);
-            months = SetMonths();
+        }
+        public ElectricityBillHandler(int appNo, string surname, int[] meterReadings)
+        {
+            AppNo = appNo;
+            Surname = surname;
+            this.meterReadings = meterReadings;
         }
         public int AppNo
         {
             get { return appNo; }
-            set { appNo = value; } //there should be a check on the number of apartments in the house
+            set
+            {
+                if (value < 0)
+                {
+                    appNo = 0;
+                }
+                else
+                {
+                    appNo = value;
+                }
+            }
         }
-        public string Surname //there should also be actions if the surname is given incorrectly
-        {
-            get { return surname; }
-            set { surname = value; }
-
-        }
-        public int QuarterNo //the user has the opportunity to view the info for each quarter, changing it himself
+        public string Surname
         {
             get
             {
-                if (quarterNo > 0 && quarterNo < 5)
+                if (surname != null)
                 {
-                    return quarterNo;
+                    return surname;
                 }
-                else return 1;
+                else
+                {
+                    return " ";
+                }
+                
             }
             set
             {
-                quarterNo = value;
+                if (value.Length <= 1)
+                {
+                    surname = "Incorrect surname";
+                }
+                else
+                {
+                    surname = value;
+                }
             }
-        }
 
-        public string SetMonths()
-        {
-            switch (quarterNo)
-            {
-                case 1:
-                    months = "January | February | March |";
-                    break;
-                case 2:
-                    months = "April | May | June |";
-                    break;
-                case 3:
-                    months = "July | August | September |";
-                    break;
-                case 4:
-                    months = "October | November | December |";
-                    break;
-            }
-            return months;
         }
-        public int[] SetMeterReadings(int month1Reading, int month2Reading, int month3Reading)
+        
+        private int[] SetMeterReadings(int month1Reading, int month2Reading, int month3Reading)
         {
             int[] meterReadings = new int[3];
             meterReadings[0] = month1Reading;
@@ -102,21 +99,35 @@ namespace Task6
             }
             return meterReadStr;
         }
-        public double CountPayAmount()
+        private double CountPayAmount()
         {
             return (double)((meterReadings[2] - meterReadings[0]) * priceKWh);
         }
-        public string PrintHeader()
+        
+        public ElectricityBillHandler Parse(string line)
         {
-            return " | No | Owners | " + months + " To pay |";
-        }
-        public List<ElectricityBillHandler> InitialiseBills()
-        {
-            bills.Add(new ElectricityBillHandler(1, "Pashko", 2, 3456, 3458, 3620));
-            bills.Add(new ElectricityBillHandler(2, "Cherniak", 2, 3456, 3458, 3620));
-            bills.Add(new ElectricityBillHandler(3, "Nowak", 2, 3456, 3458, 3620));
+            string[] bills = line.Split(' ');
 
-            return bills;
+            AppNo = int.Parse(bills[0]);
+            Surname = bills[1];
+            meterReadings = SetMeterReadings(int.Parse(bills[2]), int.Parse(bills[3]), int.Parse(bills[4]));
+            return new ElectricityBillHandler(AppNo, Surname, meterReadings);
+        }
+        
+        public string ReadFromFile(string path)
+        {
+            string line = "";
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("File not found");
+            }
+            else
+            {
+                StreamReader reader = new StreamReader(path);
+                line += reader.ReadLine();
+                reader.Close();
+            }
+            return line;
         }
     }
 }
