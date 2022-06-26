@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task6
 {
-    internal class ElectricityBillHandler
+    internal class ElectricityBill
     {
         const double priceKWh = 0.18; //it is price per kWh in Poland, сurrency - $USA
         
@@ -14,20 +14,20 @@ namespace Task6
         string? surname;
         int[] meterReadings;
 
-        public ElectricityBillHandler()
+        public ElectricityBill()
         {
             appNo = 0;
             surname = " ";
             meterReadings = new int[] { 0, 0, 0 };
         }
 
-        public ElectricityBillHandler(int appNo, string surname, int month1Readings, int month2Readings, int month3Readings)
+        public ElectricityBill(int appNo, string surname, int month1Readings, int month2Readings, int month3Readings)
         {
             AppNo = appNo;
             Surname = surname;
             meterReadings = SetMeterReadings(month1Readings, month2Readings, month3Readings);
         }
-        public ElectricityBillHandler(int appNo, string surname, int[] meterReadings)
+        public ElectricityBill(int appNo, string surname, int[] meterReadings)
         {
             AppNo = appNo;
             Surname = surname;
@@ -104,14 +104,14 @@ namespace Task6
             return (double)((meterReadings[2] - meterReadings[0]) * priceKWh);
         }
         
-        public ElectricityBillHandler Parse(string line)
+        public ElectricityBill Parse(string line)
         {
             string[] bills = line.Split(' ');
 
             AppNo = int.Parse(bills[0]);
             Surname = bills[1];
             meterReadings = SetMeterReadings(int.Parse(bills[2]), int.Parse(bills[3]), int.Parse(bills[4]));
-            return new ElectricityBillHandler(AppNo, Surname, meterReadings);
+            return new ElectricityBill(AppNo, Surname, meterReadings);
         }
         
         public string ReadFromFile(string path)

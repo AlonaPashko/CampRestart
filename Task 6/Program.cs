@@ -8,7 +8,8 @@ using Task6;
 //text1.WriteToFile("Result.txt");
 //text1.PrintMinMaxWordColl();
 
-ElectricityReport elReport = new ElectricityReport();
-Console.WriteLine(elReport);
+ElectricityReport elReport = new ElectricityReport("ElectrycityAccounting.txt");
+elReport.WriteToFile("ElectrycityReport.txt");
+
 
 
