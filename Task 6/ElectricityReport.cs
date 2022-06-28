@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Threading;
 
 namespace Task6
 {
-    internal class ElectricityReport
+    internal class ElectricityReport //class take a ElectricityBill objects and print them into txt file as a report readable for user
     {
         int appartments;
         int quarterNo;
         string months;
+        DateTime[] dateTimes;
         List<ElectricityBill> bills;
-
+        
         public ElectricityReport()
         {
             Appartments = 1;
             QuarterNo = 1;
-            months = SetMonths();
+            dateTimes = new DateTime[] { new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), new DateTime(2022, 3, 1) };
             bills = new List<ElectricityBill> { new ElectricityBill() };
         }
         public ElectricityReport(int appartments, int quaterNo)
         {
             Appartments = appartments;
             QuarterNo = quaterNo;
-            months = SetMonths();
+            dateTimes = SetDateTimes();
             bills = new List<ElectricityBill> { new ElectricityBill(1, "Pashko", 3250, 3340, 3520),
                 new ElectricityBill(2, "Cherniak", 2390, 2489, 2532) };
         }
@@ -46,7 +49,7 @@ namespace Task6
 
                 Appartments = int.Parse(array1[0]);
                 QuarterNo = int.Parse(array1[1]);
-                months = SetMonths();
+                dateTimes = SetDateTimes();
 
                 bills = SetBills(array2);
             }
@@ -82,25 +85,30 @@ namespace Task6
                 }
             }
         }
-
-        private string SetMonths()
+        
+        private DateTime[] SetDateTimes()
         {
             switch (quarterNo)
             {
                 case 1:
-                    months = " | January | February | March |";
+                    dateTimes = new DateTime[] { new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), new DateTime(2022, 3, 1) };
                     break;
                 case 2:
-                    months = " | April | May | June |";
+                    dateTimes = new DateTime[] { new DateTime(2022, 4, 1), new DateTime(2022, 5, 1), new DateTime(2022, 6, 1) };
                     break;
                 case 3:
-                    months = " | July | August | September |";
+                    dateTimes = new DateTime[] { new DateTime(2022, 7, 1), new DateTime(2022, 8, 1), new DateTime(2022, 9, 1) };
                     break;
                 case 4:
-                    months = " | October | November | December |";
+                    dateTimes = new DateTime[] { new DateTime(2022, 10, 1), new DateTime(2022, 11, 1), new DateTime(2022, 12, 1) };
                     break;
             }
-            return months;
+            return dateTimes;
+        }
+
+        public void ChangeCulture()
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("en-US", false);
         }
 
         private List<ElectricityBill> SetBills(string[] array)
@@ -114,21 +122,31 @@ namespace Task6
             }
             return bills;
         }
-        
+
         public string PrintHeader()
         {
             return "----------------------------------------------------------\n" +
-                "| No | Owners: " + appartments + " | QuarterNo: " + quarterNo + "\t\t | To pay |\n" +
+                "| No | Owners: " + appartments + " | QuarterNo: " + quarterNo + " | To pay |\n" +
                 "---------------------------------------------------------- \n" +
-                "\t\t" + months + "\t\t\n" +
-                 "----------------------------------------------------------\n";
+                "\t" + PrintDates() + "\t\t\n" +
+                "---------------------------------------------------------- \n";
         }
-        public string PrintBills()
+        private string PrintBills()
         {
             string line = "";
             for (int i = 0; i < bills.Count; i++)
             {
                 line += bills[i] + "\n";
+            }
+            return line;
+        }
+        private string PrintDates()
+        {
+            string line = "";
+            for (int i = 0; i < dateTimes.Length; i++)
+            {
+                ChangeCulture();
+                line += dateTimes[i].ToString("MMMM, dd") + " | ";
             }
             return line;
         }
@@ -158,6 +176,65 @@ namespace Task6
             }
             writer.Close();
         }
-       
+        public ElectricityBill PrintOneBill(string surname)
+        {
+            foreach (ElectricityBill bill in bills)
+            {
+                if (bill.Surname == surname)
+                {
+                    return bill;
+                }
+            }
+            return new ElectricityBill();
+        }
+        public ElectricityBill PrintOneBill(int appNo)
+        {
+            foreach (ElectricityBill bill in bills)
+            {
+                if (bill.AppNo == appNo)
+                {
+                    return bill;
+                }
+            }
+            return new ElectricityBill();
+        }
+        public string LargestDebt()
+        {
+            double result = 0;
+            string debtor = "";
+            
+            foreach(ElectricityBill bill in bills)
+            {
+                if(bill.CountPayAmount() > result)
+                {
+                    result = bill.CountPayAmount();
+                    debtor = bill.Surname;
+                }
+            }
+            return debtor;
+        }
+        public string ZeroDebt()
+        {
+            double result = 0;
+
+            foreach (ElectricityBill bill in bills)
+            {
+                if (bill.CountPayAmount() == result)
+                {
+                    result = bill.CountPayAmount();
+                    return bill.AppNo.ToString();
+                }
+            }
+            return "none";
+        }
+        public int DaysSinceLastMeterReading()
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime lastDayMeterRead = dateTimes[2];
+
+            TimeSpan result = currentDate.Subtract(lastDayMeterRead);
+            int days = (int)result.TotalDays;
+            return days;
+        }
     }
 }

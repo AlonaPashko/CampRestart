@@ -11,5 +11,17 @@ using Task6;
 ElectricityReport elReport = new ElectricityReport("ElectrycityAccounting.txt");
 elReport.WriteToFile("ElectrycityReport.txt");
 
+Console.WriteLine(elReport.PrintOneBill("Bonn"));
+Console.WriteLine(elReport.PrintOneBill(1));
+Console.WriteLine(elReport.PrintOneBill("Non-existed surname"));
+
+Console.WriteLine(elReport.LargestDebt() + " has a largest debt.");
+Console.WriteLine();
+
+Console.WriteLine("Apartment in which no electricity was used - " + elReport.ZeroDebt());
+Console.WriteLine();
+
+Console.WriteLine("Days since last meter reading: " + elReport.DaysSinceLastMeterReading());
+
 
 

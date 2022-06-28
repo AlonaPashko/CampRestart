@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Task6
 {
-    internal class ElectricityBill
+    internal class ElectricityBill //class take a string and make ElectricityBill object from it
     {
         const double priceKWh = 0.18; //it is price per kWh in Poland, сurrency - $USA
-        
         int appNo;
         string? surname;
         int[] meterReadings;
@@ -99,7 +98,7 @@ namespace Task6
             }
             return meterReadStr;
         }
-        private double CountPayAmount()
+        public double CountPayAmount()
         {
             return (double)((meterReadings[2] - meterReadings[0]) * priceKWh);
         }
@@ -129,5 +128,6 @@ namespace Task6
             }
             return line;
         }
+
     }
 }
