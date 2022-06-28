@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task1And2
 {
-    internal class Storage
+    internal class StorageCopy
     {
         private int productsAmount;
         private double totalWeight;
@@ -19,8 +19,8 @@ namespace Task1And2
         public double TotalWeight { get; set; }
         public double TotalPrice { get; set; }
         
-        public Storage() : this(0, 0.0, 0.0) { }
-        public Storage(int productsAmount, double totalWeight, double totalPrice)
+        public StorageCopy() : this(0, 0.0, 0.0) { }
+        public StorageCopy(int productsAmount, double totalWeight, double totalPrice)
         {
             ProductsAmount = productsAmount;
             TotalWeight = totalWeight;
@@ -35,9 +35,9 @@ namespace Task1And2
         }
         public override bool Equals(object? otherStorage)
         {
-            return ProductsAmount.Equals(((Storage)otherStorage).ProductsAmount) &&
-                TotalWeight.Equals(((Storage)otherStorage).TotalWeight) &&
-                TotalPrice.Equals(((Storage)otherStorage).TotalPrice);
+            return ProductsAmount.Equals(((StorageCopy)otherStorage).ProductsAmount) &&
+                TotalWeight.Equals(((StorageCopy)otherStorage).TotalWeight) &&
+                TotalPrice.Equals(((StorageCopy)otherStorage).TotalPrice);
         }
 
         public void Initialization(string name, double weight, double price)

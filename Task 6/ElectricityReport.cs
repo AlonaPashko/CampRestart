@@ -10,11 +10,10 @@ namespace Task6
 {
     internal class ElectricityReport //class take a ElectricityBill objects and print them into txt file as a report readable for user
     {
-        int appartments;
-        int quarterNo;
-        string months;
-        DateTime[] dateTimes;
-        List<ElectricityBill> bills;
+        private int appartments;
+        private int quarterNo;
+        private DateTime[] dateTimes;
+        private List<ElectricityBill> bills;
         
         public ElectricityReport()
         {
