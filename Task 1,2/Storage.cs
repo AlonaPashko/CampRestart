@@ -113,9 +113,6 @@ namespace Task1And2
             }
         }
 
-        public void AddStorageFromFile(string path)
-        {
-
-        }
+        
     }
 }

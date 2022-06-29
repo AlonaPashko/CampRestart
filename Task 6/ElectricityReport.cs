@@ -112,7 +112,6 @@ namespace Task6
 
         private List<ElectricityBill> SetBills(string[] array)
         {
-            List<ElectricityBill> bills = new List<ElectricityBill>();
             for (int i = 0; i < array.Length; i++)
             {
                 ElectricityBill bill = new ElectricityBill();
