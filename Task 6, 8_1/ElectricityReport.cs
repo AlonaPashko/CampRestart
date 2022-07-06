@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Threading;
 
-namespace Task6
+namespace Task6And8_1
 {
     internal class ElectricityReport //class take a ElectricityBill objects and print them into txt file as a report readable for user
     {
@@ -14,7 +14,7 @@ namespace Task6
         private int quarterNo;
         private DateTime[] dateTimes;
         private List<ElectricityBill> bills;
-        
+
         public ElectricityReport()
         {
             Appartments = 1;
@@ -84,7 +84,7 @@ namespace Task6
                 }
             }
         }
-        
+
         private DateTime[] SetDateTimes()
         {
             switch (quarterNo)
@@ -112,6 +112,7 @@ namespace Task6
 
         private List<ElectricityBill> SetBills(string[] array)
         {
+            List<ElectricityBill> bills = new List<ElectricityBill>();
             for (int i = 0; i < array.Length; i++)
             {
                 ElectricityBill bill = new ElectricityBill();
@@ -200,10 +201,10 @@ namespace Task6
         {
             double result = 0;
             string debtor = "";
-            
-            foreach(ElectricityBill bill in bills)
+
+            foreach (ElectricityBill bill in bills)
             {
-                if(bill.CountPayAmount() > result)
+                if (bill.CountPayAmount() > result)
                 {
                     result = bill.CountPayAmount();
                     debtor = bill.Surname;
@@ -234,5 +235,41 @@ namespace Task6
             int days = (int)result.TotalDays;
             return days;
         }
+
+        public static ElectricityReport operator +(ElectricityReport report1, ElectricityReport report2)
+        {
+            ElectricityReport resReport = new ElectricityReport();
+            resReport.bills = report1.bills;
+            resReport.bills.AddRange(report2.bills);
+
+            return resReport;
+        }
+        public static ElectricityReport operator -(ElectricityReport report1, ElectricityReport report2)
+        {
+            ElectricityReport resReport = report1;
+            
+            for (int i = 0; i < report2.bills.Count; i++)
+            {
+                for (int j = 0; j < resReport.bills.Count; j++)
+                {
+                    if (IsEqualBills(resReport.bills[j], report2.bills[i]))
+                    {
+                        resReport.bills.Remove(resReport.bills[j]);
+                    }
+                }
+            }
+            
+            return resReport;
+        }
+
+        public static bool IsEqualBills(ElectricityBill bill1, ElectricityBill bill2)
+        {
+            if (bill1.AppNo == bill2.AppNo && bill1.Surname == bill2.Surname)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

@@ -11,27 +11,47 @@ namespace Task1And2
         private int productsAmount;
         private double totalWeight;
         private double totalPrice;
-        private Product[] allProducts; //delete it (and its methods) when class have completely switched to the list
         private List<Product> products;
-
 
         public int ProductsAmount { get; set; }
         public double TotalWeight { get; set; }
         public double TotalPrice { get; set; }
-        
-        public Storage() : this(0, 0.0, 0.0) { }
-        public Storage(int productsAmount, double totalWeight, double totalPrice)
+        public List<Product> Products;
+
+
+        public Storage() : this(new List<Product> { new Product() }) { }
+
+        public Storage(List<Product> products)
         {
-            ProductsAmount = productsAmount;
-            TotalWeight = totalWeight;
-            TotalPrice = totalPrice;
-            products = new List<Product>();
-            allProducts = new Product[productsAmount];
+            Products = products;
+            ProductsAmount = Products.Count();
+            TotalWeight = SetTotalWeight();
+            TotalPrice = SetTotalPrice();
+
         }
+        private double SetTotalWeight()
+        {
+            double totalWeight = 0.0;
+            foreach (Product product in Products)
+            {
+                totalWeight += product.Weight;
+            }
+            return totalWeight;
+        }
+        private double SetTotalPrice()
+        {
+            double totalPrice = 0.0;
+            foreach (Product product in Products)
+            {
+                totalPrice += product.Price;
+            }
+            return totalPrice;
+        }
+
         public override string ToString()
         {
             return string.Format("Amount: " + ProductsAmount + " Total Weight: " + TotalWeight +
-                " Total Price: " + TotalPrice);
+                " Total Price: " + TotalPrice) + "\n" + PrintList();
         }
         public override bool Equals(object? otherStorage)
         {
@@ -44,75 +64,131 @@ namespace Task1And2
         {
             Product product = new Product(name, price, weight);
         }
-        public string Print(Product[] products)
+
+        public string PrintList()
         {
             string line = "";
-            for (int i = 0; i < products.Length; i++)
+            foreach (Product product in Products)
             {
-                line += (products[i].ToString() + "\n");
+                line += product + "\n";
             }
             return line;
         }
-        public Product[] AddProductToArray(Product product)
+
+        public void ChangePrice(int rate)
         {
-            Product[] temp = new Product[allProducts.Length + 1];
-            temp[temp.Length - 1] = product;
-            allProducts = temp;
-            return allProducts;
-        }
-        public List<Product> AddProduct(Product product)
-        {
-            products.Add(product);
-            return products;
-        }
-        
-        public void ChangePrice(Product[] products, int rate)
-        {
-            for (int i = 0; i < products.Length; i++)
+            for (int i = 0; i < Products.Count; i++)
             {
-                products[i].Price = (double)products[i].Price + (products[i].Price * rate / 100);
+                Products[i].Price = (double)Products[i].Price + (Products[i].Price * rate / 100);
             }
         }
-        public Product this[int index]//indecsator for array of Products
+        public Product this[int index]
         {
-            get 
-            { if (index >= 0 && index < allProducts.Length)
+            get
+            {
+                if (index >= 0 && index < Products.Count)
                 {
-                    return allProducts[index];
+                    return Products[index];
                 }
                 else throw new ArgumentOutOfRangeException();
             }
-            set 
-            { if (index >= 0 && index < allProducts.Length)
+            set
+            {
+                if (index >= 0 && index < Products.Count)
                 {
-                    allProducts[index] = value;
+                    Products[index] = value;
                 }
                 else throw new ArgumentOutOfRangeException();
-            }
-        }
-       
-        public void Parse(string str)//parse string into class fields
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException();
-            }
-            string[] arrayStr = str.Split(' ');
-            
-            if (!(int.TryParse(arrayStr[0], out productsAmount)))
-            {
-                throw new ArgumentException();
-            }
-            if (!(double.TryParse(arrayStr[1], out totalWeight)))
-            {
-                throw new ArgumentException();
-            }
-            if (!(double.TryParse(arrayStr[2], out totalPrice)))
-            {
-                throw new ArgumentException();
             }
         }
 
-        
+        public void Parse(string str)//parse string into class fields
+        {
+            string[] array = str.Split(' ');
+            productsAmount = int.Parse(array[0]);
+            TotalWeight = double.Parse(array[1]);
+            TotalPrice = double.Parse(array[2]);
+        }
+
+        public string ReadFromFile(string path)
+        {
+            string line = "";
+            StreamReader reader = new StreamReader(path);
+            line += reader.ReadToEnd();
+            reader.Close();
+            return line;
+        }
+        public string ReadFromFileWithAttempts()
+        {
+            int attempts = 0;
+            while (true)
+            {
+                if (attempts >= 3)
+                {
+                    throw new FileNotFoundException();
+                }
+                Console.WriteLine("Please, write the path of file: ");
+                string path = Console.ReadLine();
+
+                if (!IsFileExists(path))
+                {
+                    attempts++;
+                }
+                else
+                {
+                    return ReadFromFile(path);
+                }
+            }
+        }
+
+        public List<Product> MakeCollFromFile() //if met the product with Price or Weight = 0, system doesn`t add to coll 
+        {
+            string line = ReadFromFileWithAttempts();
+            string[] array = line.Split('\n');
+            List<Product> productsList = new List<Product>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                Product product = new Product();
+                product.Parse(array[i]);
+                if (IsCorrectProduct(product))
+                {
+                    product.Name = product.CorrectName();
+                    productsList.Add(product);
+                }
+            }
+            return productsList;
+        }
+
+        public Storage MakeStorageFromFile()
+        {
+            Storage storage = new Storage(MakeCollFromFile());
+
+            return storage;
+        }
+
+        public bool IsFileExists(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool IsCorrectProduct(Product product)
+        {
+            if (product.Weight != 0 && product.Price != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

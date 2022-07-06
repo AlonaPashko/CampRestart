@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task6
+namespace Task6And8_1
 {
     internal class ElectricityBill //class take a string and make ElectricityBill object from it
     {
@@ -128,6 +128,6 @@ namespace Task6
             }
             return line;
         }
-
+       
     }
 }

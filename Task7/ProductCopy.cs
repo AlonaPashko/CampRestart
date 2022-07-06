@@ -49,7 +49,6 @@ namespace Task7
                 {
                     string[] array = line.Split(' ');
                     Name = array[0];
-                    //Name = CorrectName();
                     if (!double.TryParse(array[1], out weight) || !double.TryParse(array[2], out price))
                     {
                         throw new FormatException();

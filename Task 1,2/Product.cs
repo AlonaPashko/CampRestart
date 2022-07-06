@@ -11,7 +11,7 @@ namespace Task1And2
         private string name;
         private double weight;
         private double price;
-        
+
         public string Name { get; set; }
         public double Weight { get; set; }
         public double Price { get; set; }
@@ -40,25 +40,54 @@ namespace Task1And2
             Price = (double)(Price * rate / 100.0);
             return Price;
         }
-        
-        public virtual void Parse(string str)
+
+        public virtual void Parse(string line)
         {
-            if (str == null || str.Split(' ').Length != 3)
+            try
             {
-                throw new ArgumentException("Wrong string!");
+                if (IsCanParse(line))
+                {
+                    string[] array = line.Split(' ');
+                    Name = array[0];;
+                    if (!double.TryParse(array[1], out weight) || !double.TryParse(array[2], out price))
+                    {
+                        throw new FormatException();
+                    }
+                    else
+                    {
+                        Weight = double.Parse(array[1]);
+                        Price = double.Parse(array[2]);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
             }
-            string[] arrayStr = str.Split(' ');
-            Name = arrayStr[0];
-            
-            if (!(double.TryParse(arrayStr[1], out weight)))
+            catch (ArgumentException)
             {
-                throw new ArgumentException();
+                ExceptionHandler ex = new ExceptionHandler();
+                ex.WriteExcInfoToFile("ErrorLog.txt");
             }
-            if (!(double.TryParse(arrayStr[2], out price)))
+            catch (FormatException)
             {
-                throw new ArgumentException();
+                ExceptionHandler ex = new ExceptionHandler();
+                ex.WriteExcInfoToFile("ErrorLog.txt");
             }
         }
+        public bool IsCanParse(string line)
+        {
+            if (line == null)
+            {
+                return false;
+            }
+            if (line.Split(' ').Length != 3)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public Product ManualInput()
         {
             Console.WriteLine("Enter your product");
@@ -72,7 +101,7 @@ namespace Task1And2
 
         public int CompareTo(object? obj)
         {
-            int res = -1;
+            //int res = -1;
 
             //if (obj as Product == null)
             //{
@@ -82,5 +111,10 @@ namespace Task1And2
             //return this.Name.CompareTo(((Product)obj).Name);
             return (obj as Product)?.Name.CompareTo(this.Name) ?? -1;
         }
+        public string CorrectName()
+        {
+            return char.ToUpper(Name[0]) + Name.Substring(1);
+        }
+
     }
 }

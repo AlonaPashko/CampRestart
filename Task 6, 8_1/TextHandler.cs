@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Task6
+namespace Task6And8_1
 {
     internal class TextHandler
     {
