@@ -1,0 +1,9 @@
+Storage Comparer
+2 об'єкти класу Storage
+Товари є в першому складі і немає в другому. SortedSet.ExceptWith - Storage - FindExceptGoods - якщо застосовувати просто Except, то не працює +
+Товари, які  є спільними в обох складах. - SortedSet.IntersectWith - Storage - FindCommonGoods - не подобається, що змінює сам об'єкт +
+Спільний список товарів, які є на обох складах, без повторів елементів. - SortedSet.Union - Storage - CommonStorage //without repeats +
+
+SortedSet<int> set = new SortedSet<int>(list)
+
+* But I dislike this decition, because I use a static class here

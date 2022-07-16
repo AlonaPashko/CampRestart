@@ -50,8 +50,7 @@ namespace Task1And2
 
         public override string ToString()
         {
-            return string.Format("Amount: " + ProductsAmount + " Total Weight: " + TotalWeight +
-                " Total Price: " + TotalPrice) + "\n" + PrintList();
+            return string.Format(PrintList());
         }
         public override bool Equals(object? otherStorage)
         {
@@ -189,6 +188,5 @@ namespace Task1And2
                 return false;
             }
         }
-
     }
 }
