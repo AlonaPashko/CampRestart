@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task_1_2
+namespace ShopProject
 {
     internal interface IPrint : IViewerBuy
     {

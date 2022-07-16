@@ -1,6 +1,5 @@
 ﻿
-using Task_1_2;
-using Task1And2;
+using ShopProject;
 
 //Buy buyer1 = new Buy("Product3", 1, 12.4, 13.2);
 

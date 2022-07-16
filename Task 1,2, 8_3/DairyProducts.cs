@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task1And2
+namespace ShopProject
 {
     internal class DairyProducts : Product
     {
