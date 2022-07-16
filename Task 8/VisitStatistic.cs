@@ -16,11 +16,7 @@ namespace Task8
         {
             Visits = new List<Visit> { new Visit() };
         }
-
-        //public VisitStatistic(List<Visit> visits)
-        //{
-        //    Visits = visits;
-        //}
+      
         public VisitStatistic(string path)
         {
             StreamReader reader = new StreamReader(path);
@@ -30,6 +26,7 @@ namespace Task8
             string[] array = line.Split('\n');
             Visits = SetVisits(array);
         }
+       
         public override string ToString()
         {
             return StringVisits();
@@ -131,6 +128,24 @@ namespace Task8
             }
             return result;
         }
-        
+        private List<Visit> MakeListOfVisits(string userIP)
+        {
+            List<Visit> visitsForOneIP = new List<Visit>();
+            for (int i = 0; i < Visits.Count; i++)
+            {
+                if (Visits[i].AddressIP == userIP)
+                {
+                    visitsForOneIP.Add(Visits[i]);
+                }
+            }
+            return visitsForOneIP;
+        }
+        public VisitStatistic MakeStatisticForOneIP(string userIP)
+        {
+            VisitStatistic visitsForOneIP = new VisitStatistic();
+            visitsForOneIP.Visits = MakeListOfVisits(userIP);
+            return visitsForOneIP;
+        }
+       
     }
 }

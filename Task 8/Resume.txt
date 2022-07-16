@@ -1,0 +1,2 @@
+Which else "sets" exists in .NET?
+How are they implemented in memory?
