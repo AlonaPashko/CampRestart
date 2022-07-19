@@ -1,0 +1,61 @@
+Щоб зробити задачу в злотих: внести зміни в course.txt
+
+Сумарна кількість кожного продукту: додати всі грами по списку в меню
+Сумарна вартість: треба буде формула, бо кількість в грамах
+Сумарна вартість у валюті: формула
+
+Результат вивести в файл «result.txt».
+
+Якщо в прейскуранті не виявиться заявленого продукту, то згенеруйте виключення. (в меню 14 продуктів, а в прайсі 10)
+
+При опрацюванні винятку надайте можливість користувачу доповнити інформацію в прйскуранті. - додати продукт разом з вартістю? 
+
+При другій невдалій спробі щодо одного продукту, повідомте користувача та заверште програму.
+
+
+
+
+
+Додаткове завдання
+У текстовому файлі знайти всі правильні записи електронної адреси і всі можливі кандидати на правильний запис електронної адреси.
+
+Конспект по Dictionary
+
+Dictionary<string, int> dict1 = new Dictionary<string, int>();
+dict1.Add("surname1", 11); //has to protect from adding same keys with a try block
+dict1.Add("surname2", 11);
+dict1.Add("surname3", 11);
+dict1.Add("surname4", 11);
+dict1.Add("surname5", 12);
+dict1.Add("surname6", 10);
+
+foreach (KeyValuePair<string, int> kvp in dict1)
+{
+    Console.WriteLine($"{kvp.Key} - {kvp.Value}");
+}
+
+dict1["surname1"] = 17;
+
+Dictionary<int, List<string>> dict2 = new Dictionary<int, List<string>>();
+
+//dict2[11].Add("surname1");
+
+foreach (KeyValuePair<string, int> kvp in dict1)
+{
+    if (!dict2.ContainsKey(kvp.Value))
+    {
+        dict2[kvp.Value] = new List<string>();
+    }
+    dict2[kvp.Value].Add(kvp.Key);
+}
+foreach (KeyValuePair<int, List<string>> kvp in dict2)
+{
+    Console.Write(kvp.Key + ":\t");
+    foreach(string str in kvp.Value)
+    {
+        Console.Write($"{str}\t");
+    }
+    Console.WriteLine();
+}
+
+*вивчити Dictionary та файли і повернутися до задачі
