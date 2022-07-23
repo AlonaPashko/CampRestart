@@ -36,21 +36,31 @@
 //Vector vector6 = new Vector();
 //vector6.ReadFromFile("Array.txt");
 
-Vector a = new Vector(3);
-a.InitRandom(1, 50);
+//Vector a = new Vector(3);
+//a.InitRandom(1, 50);
 
-Vector b = new Vector(5);
-b.InitRandom(1, 50);
+//Vector b = new Vector(5);
+//b.InitRandom(1, 50);
 
-Vector c = a + b;
-Vector d = a + 5;
+//Vector c = a + b;
+//Vector d = a + 5;
 
-d += 5;
+//d += 5;
 
-int ai = a;
-Vector e = new Vector(10);
-e = 5;
+//int ai = a;
+//Vector e = new Vector(10);
+//e = 5;
 
-Console.WriteLine("a = "+ a);
-Console.WriteLine("b = " + b); 
-Console.WriteLine("c = " + c);
+//Console.WriteLine("a = "+ a);
+//Console.WriteLine("b = " + b); 
+//Console.WriteLine("c = " + c);
+
+int[,] matr1 = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+
+Matrix matrix1 = new Matrix(matr1);
+
+foreach(var item in matrix1)
+{
+    Console.WriteLine(item);
+}
+
